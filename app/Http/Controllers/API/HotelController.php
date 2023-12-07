@@ -95,21 +95,40 @@ class HotelController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Hotel $id)
+    public function update(Request $request, int $id)
     {
-        $hotel = Hotel::find($id);
-        // If hotel exists, read hotel
-        // Else hotel not found
-        if($hotel) {
+        $validator = Validator::make($request->all(), [
+            'name' => 'required|string|max:32',
+            'location' => 'required|string|max:32',
+            'room' => 'required|string|max:32',
+            'price' => 'required|string|max:32'
+        ]);
+
+        if($validator->fails()) {
             return response()->json([
-                'status'  => 200,
-                'message' => $hotel
-            ], 200);
+                'status' => 422,
+                'message' => $validator->messages()
+            ], 422);
         } else {
-            return response()->json([
-                'status'  => 404,
-                'message' => 'User not found!'
-            ], 404);
+            $hotel = Hotel::find($id);
+            if($hotel) {
+                $hotel->update([
+                    'name' => $request->name,
+                    'location' => $request->location,
+                    'room' => $request->room,
+                    'price' => $request->price,
+                    'status' => false
+                ]);
+                return response()->json([
+                    'status' => 200,
+                    'message' => "Hotel updated!"
+                ], 200);
+            } else {
+                return response()->json([
+                    'status' => 404,
+                    'message' => "Hotel not found!"
+                ], 404);
+            }
         }
     }
 

@@ -31,7 +31,7 @@ Route::delete('/user/{id}', [App\Http\Controllers\API\UserController::class, 'de
 
 // Hotel
 Route::get('/hotel', [App\Http\Controllers\API\HotelController::class, 'index']);
-Route::post('/hotel/create', [App\Http\Controllers\API\HotelController::class, 'store']);
 Route::get('/hotel/{id}', [App\Http\Controllers\API\HotelController::class, 'show']);
+Route::post('/hotel/create', [App\Http\Controllers\API\HotelController::class, 'store']);
 Route::put('/hotel/{id}/edit', [App\Http\Controllers\API\HotelController::class, 'update']);
 Route::delete('/hotel/{id}', [App\Http\Controllers\API\HotelController::class, 'destroy']);
