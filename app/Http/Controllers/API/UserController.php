@@ -65,9 +65,12 @@ class UserController extends Controller
             // If user is succesfully created
             // Else there is an error on our server
             if($user) {
+                Auth::login($user);
+                $token = $user->createToken('authToken')->plainTextToken;
                 return response()->json([
                     'status'  => 200,
-                    'message' => 'User successfully created!'
+                    'token'   => $token,
+                    'message' => 'User successfully created and logged in!'
                 ], 200);
             } else {
                 return response()->json([
